@@ -43,15 +43,15 @@ pipeline {
 				sh "docker push dprasaddevops/bankapp-eta-app:latest"
 			}
 		}
-		stage('Deploy to Kubernetes Dev Environment') {
-            steps {
-        script {
-            withCredentials([kubeconfigFile(credentialsId: 'your-kubeconfig-id', variable: 'KUBECONFIG')]) {
-                sh 'kubectl apply -f kubernetesdeploy.yaml --kubeconfig=$KUBECONFIG'
-            }
-        }
-    }
-}
+		stage('Deploy to Kubernets'){
+             steps{
+                 script{
+                      dir('Kubernetes') {
+                         kubeconfig(credentialsId: 'k8s', serverUrl: '') {
+                         sh 'kubectl apply -f kubernetesdeploy.yaml
+                         }   
+                      }
+                 }
     
 }
 }
