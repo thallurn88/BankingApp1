@@ -43,21 +43,15 @@ pipeline {
 				sh "docker push dprasaddevops/bankapp-eta-app:latest"
 			}
 		}
-        stage('Deploy to Kubernetes Dev Environment') {
-	    //agent kubernetes	
+		stage('Deploy to Kubernetes Dev Environment') {
             steps {
-		script {
-		//sshPublisher(publishers: [sshPublisherDesc(configName: 'kubernetes', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'kubectl apply -f kubernetesdeploy.yaml', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '.', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '*.yaml')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
-		   //kubernetesDeploy(configs: "kubernetesdeploy.yaml", kubeconfigId: "kubernetes")
-		    //sh 'kubectl apply -f kubernetesdeploy.yaml --kubeconfig=$KUBECONFIG'
-		     withCredentials([kubeconfigFile(credentialsId: 'your-kubeconfig-id', variable: 'KUBECONFIG')]) {
-                         sh 'kubectl apply -f kubernetesdeploy.yaml --kubeconfig=$KUBECONFIG'
+        script {
+            withCredentials([kubeconfigFile(credentialsId: 'your-kubeconfig-id', variable: 'KUBECONFIG')]) {
+                sh 'kubectl apply -f kubernetesdeploy.yaml --kubeconfig=$KUBECONFIG'
             }
-		}
-	      //	configs: 'kubernetesdeploy.yaml',
-             //           kubeconfigId: 'kubernetes'
-        
-    	}
+        }
     }
+}
+    
 }
 }
