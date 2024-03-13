@@ -33,7 +33,7 @@ pipeline {
         }
         stage('Login2DockerHub') {
 			steps {
-				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+				sh 'docker login -u dprasaddevops -p sairam1234'
 			}
 		}
 		stage('Push2DockerHub') {
