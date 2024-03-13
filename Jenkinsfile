@@ -48,9 +48,10 @@ pipeline {
                  script{
                          kubeconfig(credentialsId: 'k8s', serverUrl: '') {
                          sh 'kubectl apply -f kubernetesdeploy.yaml'
-                         }   
+                         } 
+		 }
                      
-                 }
+         }
     
 }
 }
