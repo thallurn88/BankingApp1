@@ -31,7 +31,7 @@ pipeline {
                 sh "docker tag dprasaddevops/bankapp-eta-app:${BUILD_NUMBER} dprasaddevops/bankapp-eta-app:latest"
             }
         }
-        stage('Login2DockerHub') {
+        stage('Login2DockerHub and Push the Image') {
     steps {
         script {
             // Retrieve Docker Hub credentials from Jenkins credentials
@@ -40,15 +40,12 @@ pipeline {
                 echo "Docker Hub Password: $DOCKER_PASSWORD"
                 
                 sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
+		sh "docker push dprasaddevops/bankapp-eta-app:latest"
             }
         }
     }
 }
-		stage('Push2DockerHub') {
-			steps {
-				sh "docker push dprasaddevops/bankapp-eta-app:latest"
-			}
-		}
+		
 		stage('Deploy to Kubernetes') {
             steps {
                 script {
