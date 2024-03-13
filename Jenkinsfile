@@ -32,10 +32,18 @@ pipeline {
             }
         }
         stage('Login2DockerHub') {
-			steps {
-				sh 'docker login -u dprasaddevops -p sairam1234'
-			}
-		}
+    steps {
+        script {
+            // Retrieve Docker Hub credentials from Jenkins credentials
+            withCredentials([usernamePassword(credentialsId: 'docker-login-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                echo "Docker Hub Username: $DOCKER_USERNAME"
+                echo "Docker Hub Password: $DOCKER_PASSWORD"
+                
+                sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
+            }
+        }
+    }
+}
 		stage('Push2DockerHub') {
 			steps {
 				sh "docker push dprasaddevops/bankapp-eta-app:latest"
