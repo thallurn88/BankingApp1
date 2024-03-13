@@ -46,11 +46,10 @@ pipeline {
 		stage('Deploy to Kubernets'){
              steps{
                  script{
-                      dir('Kubernetes') {
                          kubeconfig(credentialsId: 'k8s', serverUrl: '') {
                          sh 'kubectl apply -f kubernetesdeploy.yaml
                          }   
-                      }
+                     
                  }
     
 }
